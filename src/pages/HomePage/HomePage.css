@@ -1,0 +1,336 @@
+.mainHomePage {
+    height: calc(100vh - 80px);
+}
+
+.headerHomePage {
+  background-color: black;
+  height: 80px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+
+  position: absolute;
+  top: 0;  
+}
+
+.buttonHomePage {
+    border: 2px solid #EBDDDD;
+}
+
+.productsHomePage {
+    background-color: transparent;
+    font-size: 15px;
+    transition: 1s
+}
+
+.productsHomePage:hover {
+    background-color: transparent;
+    color: #A5A1A1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.conteudoHomePage {
+    color: #F5F5F5;
+}
+
+.formHomePage {
+    background: radial-gradient(circle, rgba(57,52,52,1) 23%, rgba(23,22,22,1) 80%);    
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentHomePage {
+
+    background-color: #667F85;
+    width: 700px;
+    margin: 0 auto;
+    padding: 50px;
+    border: 2px solid black;
+    border-radius: 15px;
+    
+    h1 {
+        text-align: center;
+    }
+    
+}
+
+.cadastrarHomePage {
+    display: flex;
+    
+    h3 {
+        color: #F5F5F5;
+        text-shadow: 2px 2px 1px black;
+        font-size: 20px;
+    }
+}
+
+.selectorHomePage {
+    width: 100%;
+    height: 38px;
+
+    outline: 0;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sign-up {
+    div:nth-of-type(2) {
+        margin-top: 15px;
+    }
+}
+
+.field-wrap {
+    
+    .input-container {
+        background-color: white;
+        display: flex;
+        align-items: center;
+        
+        width: 100%;
+        
+        border: 1px solid black;
+        border-radius: 5px;
+        
+        input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            text-align: start;
+            padding: 10px;
+        }  
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+        }
+
+    }
+
+    h3:nth-of-type(2) {
+        margin-top: 15px;
+    }
+
+}
+
+.buttonFormHomePage {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.formHomePage_2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .ContainerHomePage {
+        background-color: #667F85;
+        width: 750px;
+        margin: 50px auto;
+        padding: 50px;
+        border: 2px solid black;
+        border-radius: 15px;
+
+        h1 {
+            font-size: 35px;
+            text-align: center;
+        }
+
+        .ContentTable {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .linhaTable {
+                width: 100%;
+                margin: 10px 0;
+                border: 1px solid black;
+            }
+            
+            .table {
+                color: #F5F5F5;
+                text-shadow: 2px 2px 1px black;
+                font-size: 18px;
+
+                tr {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                }
+
+                tbody {
+
+                    tr {
+                        margin-top: 20px;
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .headerHomePage {
+        
+        h2 {
+            font-size: 15px;
+        }
+
+        .productsHomePage {
+            font-size: 15px;
+        }
+
+        .buttonHomePage {
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+    }
+
+    .contentHomePage {
+        width: 400px;
+
+        .cadastrarHomePage {
+            
+            h3 {
+                font-size: 16px;
+            }
+
+            .buttonFormHomePage {
+                width: 180px;
+            }
+            
+        }
+        
+    }
+
+    .formHomePage_2 {
+
+        .ContainerHomePage {
+            
+            width: 400px;
+            
+            h1 {
+                font-size: 28px;
+            }
+
+            .ContentTable {
+
+                .table {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 15px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                font-size: 14px;
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+    }
+}
+
+@media (max-width: 480px) {
+
+    .contentHomePage {
+        width: 320px;
+        padding: 30px;
+    }
+    
+    .formHomePage_2 {
+        
+        .ContainerHomePage {
+            
+            width: 320px;
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .ContentTable {
+
+                .linhaTable {
+                    display: none;
+                }
+
+                .table {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 12px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                font-size: 12px;
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
