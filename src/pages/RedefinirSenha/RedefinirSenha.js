@@ -1,7 +1,7 @@
-import LoginForm from "../../components/LoginForm";
-import './Login.css';
+import ResetSenha from "../../components/ResetSenha";
+import './RedefinirSenha.css';
 
-const Login = () => {
+const RedefinirSenha = () => {
     return(
         <main className="main">
             
@@ -13,11 +13,12 @@ const Login = () => {
             />
 
             <div className="container_login">
-                <h1> Login </h1>
-                <LoginForm />
+                <h1> Redefinir Senha </h1>
+                <ResetSenha />
             </div>
 
         </main>
     )
 }
-export default Login;
+
+export default RedefinirSenha;

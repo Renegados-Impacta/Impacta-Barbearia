@@ -1,46 +1,33 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const LoginForm = () => {
+const ResetSenha = () => {
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = (e) => {
+    console.log(e)
+    
     e.preventDefault();
-    const sucess = login(email, password)
+    const sucess = login(email)
     if (sucess) {
-      navigate("/homepage");
-    } else {
-      alert("E-mail ou senha inválidos!");
+      alert("E-mail com sucesso!");
+
     }
   };
 
   return (
-
-
     
     <form onSubmit={handleLogin}>
-      
+  
       <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} required />
-      <Link className="LinkLogin" to="/redefinirSenha"> 
-      Esqueceu a senha?
-        </Link> 
-      <button className="buttonLogin" type="submit">Entrar</button>
-      
-      <hr className="linhaLogin"/>
 
-      <span>
-         
-        Ainda não tem uma conta? 
-        <Link className="LinkLogin" to="/register"> 
-          Cadastre-se 
-        </Link> 
-        
-      </span>
+
+      
+      <button className="buttonLogin" type="submit">Enviar</button> 
+
+
 
       <Link className="linkHome" to="/">
           Página inicial
@@ -50,7 +37,7 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetSenha;
 
 /*
 
