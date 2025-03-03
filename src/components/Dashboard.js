@@ -1,6 +1,7 @@
 import { useContext, useState, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Trash2 } from "lucide-react";
 
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -31,7 +32,7 @@ const Dashboard = () => {
     if(formData.data){
   }
   
- setFormData({ ...formData, [e.target.name]: e.target.value });
+  setFormData({ ...formData, [e.target.name]: e.target.value });
 
   };
 
@@ -62,11 +63,12 @@ const Dashboard = () => {
       data: "",
       hora: "",
     });
-    if(locationPath !== "/homepage/edit"){
-    alert("Agendamento efetuado com sucesso!");
-    }else{
-      alert("Agendamento atualizado com sucesso!");
 
+    if(locationPath === "/homepage/edit"){
+      alert("Agendamento atualizado com sucesso!");
+      navigate("/homepage")
+    }else{
+      alert("Agendamento efetuado com sucesso!");
     }
 
   };
@@ -84,6 +86,13 @@ const Dashboard = () => {
       formPosition.current = i
     }
   }
+
+   // Função para excluir um agendamento
+  const handleDelete = (index) => {
+    const novosAgendamentos = agendamentos.filter((_, i) => i !== index);
+    setAgendamentos(novosAgendamentos);
+    alert("Agendamento removido com sucesso!");
+  };
   
   return (
     <main className="mainHomePage">
@@ -170,11 +179,12 @@ const Dashboard = () => {
             </div>
 
             <button  type="submit" className="buttonFormHomePage">
-            {locationPath === "/homepage/edit" ? "Editar" : "Agendar"} 
+              {locationPath === "/homepage/edit" ? "Editar" : "Agendar"} 
             </button>
           </form>
         </div>
       </div>
+
 
       {/* Lista de Clientes Agendados */}
       <div className="formHomePage_2">
@@ -200,10 +210,18 @@ const Dashboard = () => {
                     <td>{agendamento?.data}</td> |
                     <td>{agendamento?.hora}</td>
                     <td>       
-                    <button className="buttonHomePage" onClick={() => {setPosition(index); navigate("/homepage/edit"); }}>
-          Editar
-        </button>
-                                </td>
+                      
+                      <button className="buttonEditHomePage" onClick={() => {setPosition(index); navigate("/homepage/edit"); }}>
+                        Editar
+                      </button>
+
+                      <Trash2
+                        className="iconDelete"
+                        onClick={() => handleDelete(index)}
+                        style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
+                      />
+                      
+                    </td>
                   </tr>
                 ))}
               </tbody>

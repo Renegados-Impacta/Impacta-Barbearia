@@ -12,6 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
     const sucess = login(email, password)
     if (sucess) {
+      alert("Login Efetuado com sucesso!")
       navigate("/homepage");
     } else {
       alert("E-mail ou senha inválidos!");
@@ -26,9 +27,11 @@ const LoginForm = () => {
       
       <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required />
       <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} required />
+
       <Link className="LinkLogin" to="/redefinirSenha"> 
-      Esqueceu a senha?
-        </Link> 
+        Esqueceu a senha?
+      </Link> 
+      
       <button className="buttonLogin" type="submit">Entrar</button>
       
       <hr className="linhaLogin"/>

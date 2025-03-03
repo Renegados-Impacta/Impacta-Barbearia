@@ -16,10 +16,6 @@
   top: 0;  
 }
 
-.buttonHomePage {
-    border: 2px solid #EBDDDD;
-}
-
 .productsHomePage {
     background-color: transparent;
     font-size: 15px;
@@ -50,7 +46,7 @@
 
     background-color: #667F85;
     width: 700px;
-    margin: 0 auto;
+    margin-top: 100px;
     padding: 50px;
     border: 2px solid black;
     border-radius: 15px;
@@ -130,6 +126,11 @@
     margin: 0 auto;
 }
 
+.iconDelete {
+    width: 20px;
+    vertical-align: middle;
+}
+
 .formHomePage_2 {
     display: flex;
     flex-direction: column;
@@ -138,7 +139,7 @@
     
     .ContainerHomePage {
         background-color: #667F85;
-        width: 750px;
+        width: 850px;
         margin: 50px auto;
         padding: 50px;
         border: 2px solid black;
@@ -165,6 +166,18 @@
                 color: #F5F5F5;
                 text-shadow: 2px 2px 1px black;
                 font-size: 18px;
+                
+                .buttonEditHomePage {
+                    background: transparent;
+                    border: none;
+                }
+                
+                .buttonEditHomePage:hover {
+                    color:rgb(0, 98, 245);
+                    text-decoration: underline;
+                    text-underline-offset: 2px;
+                    text-shadow: 0.5px 0.5px 0.5px black;
+                }
 
                 tr {
                     display: flex;
@@ -212,6 +225,8 @@
     }
 
     .contentHomePage {
+
+        /* margin-top: 150px; */
         width: 400px;
 
         .cadastrarHomePage {
@@ -232,7 +247,7 @@
 
         .ContainerHomePage {
             
-            width: 400px;
+            width: 620px;
             
             h1 {
                 font-size: 28px;
@@ -260,7 +275,7 @@
                             margin-top: 20px;
                             
                             td {
-                                font-size: 14px;
+                                font-size: 10px;
                             }
                             
                         }
@@ -313,12 +328,23 @@
                     }
                     
                     tbody {
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: enter;
+                        margin: 0 auto;
+                        
+                        .buttonEditHomePage {
+                            width: 10px;
+                            margin-right: 10px;
+                            font-size: 8px;
+                        }
                         
                         tr {
                             margin-top: 20px;
                             
                             td {
-                                font-size: 12px;
+                                font-size: 7px;
                             }
                             
                         }

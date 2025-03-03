@@ -13,7 +13,6 @@ const ResetSenha = () => {
     const sucess = login(email)
     if (sucess) {
       alert("E-mail com sucesso!");
-
     }
   };
 
@@ -22,12 +21,8 @@ const ResetSenha = () => {
     <form onSubmit={handleLogin}>
   
       <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required />
-
-
       
       <button className="buttonLogin" type="submit">Enviar</button> 
-
-
 
       <Link className="linkHome" to="/">
           Página inicial
