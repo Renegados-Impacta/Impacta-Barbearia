@@ -27,33 +27,43 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+    // ✅ Função para recuperação de senha
+    const resetPassword = (email) => {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const userExists = users.find((u) => u.email === email);
+  
+      if (userExists) {
+        alert(`Um e-mail foi enviado para ${email} com instruções para redefinir sua senha.`);
+        return true;
+      } else {
+        alert("E-mail não encontrado! Verifique se digitou corretamente.");
+        return false;
+      }
+    };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-/* Para que serve: 
+/* 
 
-  O contexto (AuthContext) serve para gerenciar o estado global da autenticação. Assim, qualquer parte do app pode verificar se o usuário está logado, sem precisar passar dados manualmente de um componente para outro.
+  📌 Para que serve: 
 
-  Sem o contexto, cada componente precisaria gerenciar a autenticação separadamente, tornando o código mais difícil de manter.
+  O contexto (AuthContext) gerencia o estado global da autenticação, permitindo que qualquer parte do site acesse informações sobre o usuário logado, sem precisar passar dados manualmente entre componentes.
 
-  📌 Por que precisamos desse código:
-  1️⃣ Mantém o login em toda a aplicação
+  📌 O que esse código faz?
+  ✅ Mantém o login do usuário salvo na aplicação.
+  ✅ Permite login e logout de qualquer parte do app.
+  ✅ Salva o usuário automaticamente no localStorage.
+  ✅ Implementa a funcionalidade de recuperação de senha.
 
-  Sem ele, precisaríamos passar user, login e logout como props para todos os componentes.
-  Isso deixaria o código bagunçado e difícil de manter.
-  
-  2️⃣ Facilita o login e logout
-
-  Podemos chamar login(email, password) e logout() de qualquer lugar do app.
-  Não precisamos repetir código em vários componentes.
-  
-  3️⃣ Salva o usuário automaticamente
-
-  Se o usuário fechar o navegador e abrir de novo, ele continua logado.
-  O useEffect recupera o usuário do localStorage automaticamente.
+  📌 Por que precisamos desse código?
+  1️⃣ Facilita a autenticação centralizando login, logout e recuperação de senha.
+  2️⃣ Evita repetição de código ao permitir chamadas diretas ao contexto.
+  3️⃣ Melhora a experiência do usuário ao salvar o estado do login no localStorage.
+  4️⃣ Oferece um sistema de recuperação de senha para que usuários possam redefinir suas credenciais facilmente.
 
 */
