@@ -46,5 +46,6 @@ export default ResetSenha;
   1️⃣ Permite que os usuários recuperem suas senhas caso as esqueçam.
   2️⃣ Garante que apenas e-mails cadastrados possam solicitar a recuperação.
   3️⃣ Melhora a experiência do usuário limpando o campo de e-mail após o envio.
+  4️⃣ Redireciona o usuário para a página principal caso queira.
   
 */
