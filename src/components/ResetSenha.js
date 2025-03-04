@@ -27,7 +27,7 @@ const ResetSenha = () => {
       
       <button className="buttonLogin" type="submit">Enviar</button> 
 
-      <Link className="linkHome" to="/">Página inicial</Link>
+      <Link className="linkHome" to="/login">Página de Login</Link>
     </form>
   );
 };
