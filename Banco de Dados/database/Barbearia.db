@@ -1,0 +1,19 @@
+-- Tabela de usuários
+-- Tabela de usuários
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+-- Tabela de agendamentos
+CREATE TABLE IF NOT EXISTS agendamentos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cliente_id INTEGER NOT NULL,
+    barbeiro TEXT NOT NULL,
+    servico TEXT NOT NULL,
+    data TEXT NOT NULL,
+    hora TEXT NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES users(id)
+);
