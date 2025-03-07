@@ -7,48 +7,48 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const loggedUser = localStorage.getItem("loggedUser");
-    if (loggedUser) setUser(JSON.parse(loggedUser));
+    const storedUser = sessionStorage.getItem("loggedUser");
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  const login = (email, password) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const validUser = users.find((u) => u.email === email && u.password === password);
+  const login = async (email, password) => {
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (validUser) {
-      localStorage.setItem("loggedUser", JSON.stringify(validUser));
-      setUser(validUser);
-      return true;
+      const data = await response.json();
+
+      if (response.ok) {
+        setUser(data.user);
+        sessionStorage.setItem("loggedUser", JSON.stringify(data.user)); // Armazena temporariamente a sessão
+        toast.success("Login efetuado com sucesso!");
+        return true;
+      } else {
+        toast.error(data.message);
+        return false;
+      }
+    } catch (error) {
+      toast.error("Erro ao conectar com o servidor!");
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
-    localStorage.removeItem("loggedUser");
-    toast.success("Desconectado com sucesso! Até breve, volte sempre!")
+    sessionStorage.removeItem("loggedUser");
     setUser(null);
+    toast.success("Desconectado com sucesso! Até breve, volte sempre!");
   };
 
-    // ✅ Função para recuperação de senha
-    const resetPassword = (email) => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const userExists = users.find((u) => u.email === email);
-  
-      if (userExists) {
-        toast.info(`Um e-mail foi enviado para ${email} com instruções para redefinir sua senha.`);
-        return true;
-      } else {
-        toast.error("E-mail não encontrado! Verifique se digitou corretamente.");
-        return false;
-      }
-    };
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, resetPassword }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 /* 
 

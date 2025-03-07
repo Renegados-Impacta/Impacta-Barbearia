@@ -1,24 +1,36 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ResetSenha = () => {
-  const { resetPassword } = useContext(AuthContext);
   const [email, setEmail] = useState("");
 
-  const handleReset = (e) => {
+  const handleReset = async (e) => {
     e.preventDefault();
-    const success = resetPassword(email);
-    if (success) {
-      setEmail("");
-    } else {
-      setEmail("");
+
+    try {
+      const response = await fetch("http://localhost:5000/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Erro ao tentar redefinir a senha!");
     }
+
+    setEmail("");
   };
 
   return (
     <form onSubmit={handleReset}>
-      
       <input
         type="email"
         placeholder="Digite seu e-mail"

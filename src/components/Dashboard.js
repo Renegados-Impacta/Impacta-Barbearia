@@ -1,8 +1,9 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import axios from 'axios';
 
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -12,6 +13,22 @@ const Dashboard = () => {
   const formPosition = useRef(null)
   const dateCurrent = new Date().toISOString().split("T"[0])[0];
 
+  // Isso garante que, ao abrir a página, a lista de agendamentos seja carregada do banco de dados.
+  useEffect(() => {
+    const fetchAgendamentos = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/agendamentos");
+        setAgendamentos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar agendamentos:", error);
+        toast.error("Erro ao carregar agendamentos.");
+      }
+    };
+
+    fetchAgendamentos();
+  }, []);
+
+  
   // Estado para armazenar os agendamentos
   const [agendamentos, setAgendamentos] = useState([]);
   
@@ -38,15 +55,31 @@ const Dashboard = () => {
   };
 
   // Função para enviar o formulário
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
   
     // Criar um novo agendamento com os dados do formulário + nome do usuário
     const novoAgendamento = {
       cliente: user.name, // Nome do usuário logado
-      ...formData,
+      clienteId: user.id,  // Supondo que user tenha um id
+      barbeiroId: formData.barbeiro,
+      servicoId: formData.servico,
+      data: formData.data,
+      hora: formData.hora,
     };
+
+    try {
+      await axios.post("http://localhost:5000/agendamentos", novoAgendamento);
+      toast.success("Agendamento efetuado com sucesso!");
+  
+      // Atualizar a lista de agendamentos após criar um novo
+      const response = await axios.get("http://localhost:5000/agendamentos");
+      setAgendamentos(response.data);
+    } catch (error) {
+      console.error("Erro ao criar agendamento:", error);
+      toast.error("Erro ao criar agendamento.");
+    }
     
     // Atualizar a lista de agendamentos
     if (locationPath === "/homepage/edit") {
@@ -89,10 +122,20 @@ const Dashboard = () => {
   }
 
    // Função para excluir um agendamento
-  const handleDelete = (index) => {
-    const novosAgendamentos = agendamentos.filter((_, i) => i !== index);
-    setAgendamentos(novosAgendamentos);
-    toast.success("Agendamento removido com sucesso!");
+  const handleDelete = async (index) => {
+    const agendamento = agendamentos[index];
+  
+    try {
+      await axios.delete(`http://localhost:5000/agendamentos/${agendamento.id}`);
+      toast.success("Agendamento removido com sucesso!");
+  
+      // Atualizar a lista de agendamentos após deletar
+      const response = await axios.get("http://localhost:5000/agendamentos");
+      setAgendamentos(response.data);
+    } catch (error) {
+      console.error("Erro ao excluir agendamento:", error);
+      toast.error("Erro ao excluir agendamento.");
+    }
   };
   
   return (

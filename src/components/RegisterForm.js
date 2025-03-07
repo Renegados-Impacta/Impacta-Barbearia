@@ -8,21 +8,28 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    if (users.find((u) => u.email === email)) {
-      toast.info("E-mail já cadastrado!");
-      return;
+  
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        toast.success(data.message);
+        navigate("/login");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Erro ao cadastrar usuário.");
     }
-
-    users.push({ name, email, password });
-    localStorage.setItem("users", JSON.stringify(users));
-
-    toast.success("Cadastro realizado com sucesso!");
-    navigate("/login");
-  };
+  };  
 
   return (
     <form onSubmit={handleRegister}>

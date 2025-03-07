@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);
@@ -9,21 +8,17 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const sucessLogin = login(email, password)
-    if (sucessLogin) {
-      toast.success("Login Efetuado com sucesso!")
+    const successLogin = await login(email, password);
+  
+    if (successLogin) {
       navigate("/homepage");
-    } else {
-      toast.error("E-mail ou senha inválidos!");
     }
   };
 
   return (
 
-
-    
     <form onSubmit={handleLogin}>
       
       <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required />
