@@ -124,8 +124,15 @@ app.post('/login', async (req, res) => {
         if (result.recordset.length === 0) {
             return res.status(401).json({ message: "E-mail ou senha inválidos!" });
         }
-
-        res.json({ message: "Login efetuado com sucesso!", user: result.recordset[0] });
+        
+        res.json({ 
+            message: "Login efetuado com sucesso!", 
+            user: {
+                id: result.recordset[0].Id,
+                name: result.recordset[0].Nome,
+                email: result.recordset[0].Email,
+            },
+        });
     } catch (err) {
         res.status(500).json({ message: "Erro ao fazer login", error: err.message });
     }

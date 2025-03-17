@@ -4,11 +4,14 @@ import { toast } from "react-toastify";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("loggedUser")
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("loggedUser");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    const loggedUser = localStorage.getItem("loggedUser");
+    if (loggedUser) setUser(JSON.parse(loggedUser));
   }, []);
 
   const login = async (email, password) => {
@@ -18,12 +21,12 @@ export const AuthProvider = ({ children }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+      
       const data = await response.json();
 
       if (response.ok) {
         setUser(data.user);
-        sessionStorage.setItem("loggedUser", JSON.stringify(data.user)); // Armazena temporariamente a sessão
+        localStorage.setItem("loggedUser", JSON.stringify(data.user)); // Armazena temporariamente a sessão
         toast.success("Login efetuado com sucesso!");
         return true;
       } else {
@@ -37,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    sessionStorage.removeItem("loggedUser");
+    localStorage.removeItem("loggedUser");
     setUser(null);
     toast.success("Desconectado com sucesso! Até breve, volte sempre!");
   };
@@ -60,12 +63,10 @@ export const AuthProvider = ({ children }) => {
   ✅ Mantém o login do usuário salvo na aplicação.
   ✅ Permite login e logout de qualquer parte do app.
   ✅ Salva o usuário automaticamente no localStorage.
-  ✅ Implementa a funcionalidade de recuperação de senha.
 
   📌 Por que precisamos desse código?
-  1️⃣ Facilita a autenticação centralizando login, logout e recuperação de senha.
+  1️⃣ Facilita a autenticação centralizando login e logout.
   2️⃣ Evita repetição de código ao permitir chamadas diretas ao contexto.
   3️⃣ Melhora a experiência do usuário ao salvar o estado do login no localStorage.
-  4️⃣ Oferece um sistema de recuperação de senha para que usuários possam redefinir suas credenciais facilmente.
 
 */

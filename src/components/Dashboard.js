@@ -238,20 +238,20 @@ const Dashboard = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Cliente</th> |
-                  <th>Barbeiro</th> |
-                  <th>Serviço</th> |
-                  <th>Data do Corte</th> |
+                  <th>Cliente</th>
+                  <th>Barbeiro</th>
+                  <th>Serviço</th>
+                  <th>Data do Corte</th>
                   <th>Hora do Corte</th>
                 </tr>
               </thead>
               <tbody>
                 {agendamentos?.map((agendamento, index) => (
                   <tr key={index}>
-                    <td>{agendamento?.cliente}</td> |
-                    <td>{agendamento?.barbeiro}</td> |
-                    <td>{agendamento?.servico}</td> |
-                    <td>{agendamento?.data}</td> |
+                    <td>{agendamento?.cliente}</td>
+                    <td>{agendamento?.barbeiro}</td>
+                    <td>{agendamento?.servico}</td>
+                    <td>{agendamento?.data}</td>
                     <td>{agendamento?.hora}</td>
                     <td>       
                       
