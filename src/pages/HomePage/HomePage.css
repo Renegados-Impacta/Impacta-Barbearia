@@ -184,12 +184,28 @@
                     align-items: center;
                     justify-content: center;
                     gap: 10px;
+
+                    th::after {
+                        content: "|";
+                        padding-left: 10px;
+                    }
+                    
                 }
 
                 tbody {
 
                     tr {
-                        margin-top: 20px;
+                        margin-top: 20px;                        
+
+                        td::after {
+                            content: "|";
+                            padding-left: 10px;
+                        }
+
+                        td:last-child::after {
+                            content: ""; /* Remove o | da última célula */
+                        }
+                        
                     }
                     
                 }
