@@ -17,7 +17,6 @@ function RoutesApp() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/homepage" element={<HomePage />} />
-                    <Route path="/homepage/edit" element={<HomePage />} />
                     <Route path="/redefinirSenha" element={<RedefinirSenha />} />
                     <Route path="/produtos" element={<Produtos />} />
                 </Routes>

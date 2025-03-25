@@ -1,23 +1,67 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import axios from 'axios';
 
+// 📌 Função para formatar data no formato dd/mm/aaaa
+const formatarData = (dataISO) => {
+  if (!dataISO) return ""; // Evita erro caso a data seja undefined
+  const data = new Date(dataISO);
+  return data.toLocaleDateString("pt-BR", { timeZone: "UTC" });
+};
+
+// 📌 Função para formatar hora no formato HH:mm
+const formatarHora = (horaISO) => {
+  if (!horaISO) return ""; // Evita erro caso a hora seja undefined
+  const hora = new Date(horaISO);
+  return hora.toLocaleTimeString("pt-BR", { 
+    hour: "2-digit", 
+    minute: "2-digit", 
+    timeZone: "UTC" 
+  });
+};
+
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
-  const locationPath = location.pathname
-  const formPosition = useRef(null)
-  const dateCurrent = new Date().toISOString().split("T"[0])[0];
+  const dateCurrent = new Date().toISOString().split("T"[0]);
+  const [barbeiros, setBarbeiros] = useState([]);
+  const [servicos, setServicos] = useState([]);
+  const [agendamentos, setAgendamentos] = useState([]); // Estado para armazenar os agendamentos
+
+  // Estado para capturar os valores do formulário
+  const [formData, setFormData] = useState({
+    barbeiro: "",
+    servico: "",
+    data: "",
+    hora: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const barbeirosResponse = await axios.get("http://localhost:5000/barbeiros");
+        setBarbeiros(barbeirosResponse.data);  // Aqui salvamos os barbeiros
+  
+        const servicosResponse = await axios.get("http://localhost:5000/servicos");
+        setServicos(servicosResponse.data);  // Aqui salvamos os serviços
+      } catch (error) {
+        console.error("Erro ao buscar barbeiros e serviços:", error);
+        toast.error("Erro ao carregar dados.");
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   // Isso garante que, ao abrir a página, a lista de agendamentos seja carregada do banco de dados.
   useEffect(() => {
     const fetchAgendamentos = async () => {
       try {
         const response = await axios.get("http://localhost:5000/agendamentos");
+        console.log("Agendamentos carregados:", response.data); // Verifique se a resposta é correta
         setAgendamentos(response.data);
       } catch (error) {
         console.error("Erro ao buscar agendamentos:", error);
@@ -28,41 +72,23 @@ const Dashboard = () => {
     fetchAgendamentos();
   }, []);
 
-  
-  // Estado para armazenar os agendamentos
-  const [agendamentos, setAgendamentos] = useState([]);
-  
-  // Estado para capturar os valores do formulário
-  const [formData, setFormData] = useState({
-    barbeiro: "",
-    servico: "",
-    data: "",
-    hora: "",
-  });
-
   if (!user) {
-    navigate("/");
+    navigate("/"); // Se o usuário não estiver logado, redireciona para a página de login
     return null;
   }
 
   // Função para capturar as mudanças no formulário
   const handleChange = (e) => {
-    if(formData.data){
-  }
-  
-  setFormData({ ...formData, [e.target.name]: e.target.value });
-
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Função para enviar o formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  
-    // Criar um novo agendamento com os dados do formulário + nome do usuário
+    // Criar um novo agendamento com os dados do formulário + clienteId (do usuário logado)
     const novoAgendamento = {
-      cliente: user.name, // Nome do usuário logado
-      clienteId: user.id,  // Supondo que user tenha um id
+      clienteId: user.id,  // Usando o ID do usuário logado
       barbeiroId: formData.barbeiro,
       servicoId: formData.servico,
       data: formData.data,
@@ -70,26 +96,38 @@ const Dashboard = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/agendamentos", novoAgendamento);
-      toast.success("Agendamento efetuado com sucesso!");
-  
-      // Atualizar a lista de agendamentos após criar um novo
-      const response = await axios.get("http://localhost:5000/agendamentos");
-      setAgendamentos(response.data);
+      const response = await fetch('http://localhost:5000/agendamentos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(novoAgendamento),
+      });
+
+      if (response.ok) {
+        toast.success("Agendamento criado com sucesso!");
+
+        // Agora, recupere a lista atualizada de agendamentos
+        const agendamentosResponse = await fetch('http://localhost:5000/agendamentos');
+        if (agendamentosResponse.ok) {
+          const agendamentosData = await agendamentosResponse.json();
+
+          // Atualize o estado com a nova lista de agendamentos
+          setAgendamentos(agendamentosData);
+        } else {
+          toast.error("Erro ao carregar os agendamentos.");
+        }
+
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || "Erro ao criar agendamento.");
+      }
+
     } catch (error) {
       console.error("Erro ao criar agendamento:", error);
       toast.error("Erro ao criar agendamento.");
     }
     
-    // Atualizar a lista de agendamentos
-    if (locationPath === "/homepage/edit") {
-      setAgendamentos(agendamentos.map((item, i) =>
-        i === formPosition.current ? {...item, ...novoAgendamento } : item
-      ));
-    } else {
-      setAgendamentos([...agendamentos, novoAgendamento]);
-    }
-
     // Resetar o formulário
     setFormData({
       barbeiro: "",
@@ -97,47 +135,29 @@ const Dashboard = () => {
       data: "",
       hora: "",
     });
-
-    if(locationPath === "/homepage/edit"){
-      toast.success("Agendamento atualizado com sucesso!");
-      navigate("/homepage")
-    }else{
-      toast.success("Agendamento efetuado com sucesso!");
-    }
-
   };
 
-  const setPosition = (i)=>{
-    
-    if(i !== undefined) {
-      setFormData({
-        barbeiro: agendamentos[i].barbeiro,
-        servico: agendamentos[i].servico,
-        data: agendamentos[i].data,
-        hora: agendamentos[i].hora
-      })
-      window.scrollTo(0, 0)
-      formPosition.current = i
-    }
-  }
-
-   // Função para excluir um agendamento
-  const handleDelete = async (index) => {
-    const agendamento = agendamentos[index];
-  
+  // Função para excluir um agendamento
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/agendamentos/${agendamento.id}`);
-      toast.success("Agendamento removido com sucesso!");
-  
-      // Atualizar a lista de agendamentos após deletar
-      const response = await axios.get("http://localhost:5000/agendamentos");
-      setAgendamentos(response.data);
+      const response = await fetch(`http://localhost:5000/agendamentos/${id}`, {
+          method: 'DELETE',
+      });
+
+      if (response.ok) {
+          toast.success("Agendamento removido com sucesso!");
+
+          // Atualizar a lista de agendamentos sem recarregar a página
+          setAgendamentos(agendamentos.filter(agendamento => agendamento.Id !== id));
+      } else {
+          toast.error("Erro ao excluir agendamento.");
+      }
     } catch (error) {
-      console.error("Erro ao excluir agendamento:", error);
-      toast.error("Erro ao excluir agendamento.");
+        console.error("Erro ao excluir agendamento:", error);
+        toast.error("Erro ao excluir agendamento.");
     }
   };
-  
+
   return (
     <main className="mainHomePage">
       <header className="headerHomePage">
@@ -146,14 +166,14 @@ const Dashboard = () => {
         <button className="productsHomePage" onClick={() => navigate("/produtos")}>
           Produtos
         </button>
-        <button className="buttonHomePage" onClick={() => { logout(); navigate("/"); }}>
+        <button className="buttonHomePage" onClick={() => { logout(); navigate("/"); }} >
           Sair
         </button>
       </header>
 
       <div className="formHomePage">
         <div className="contentHomePage">
-          <h1>{locationPath === "/homepage/edit" ? "Editar" : "Agendar"}  procedimento </h1>  
+          <h1> Agendar procedimento </h1>  
 
           <form className="cadastrarHomePage" onSubmit={handleSubmit}>
             <div className="sign-up">
@@ -166,10 +186,12 @@ const Dashboard = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled>Selecione uma opção</option>
-                  <option>Victor</option>
-                  <option>Matheus</option>
-                  <option>Gustavo</option>
+                  <option value="" disabled>Selecione um barbeiro</option>
+                  {barbeiros.map((barbeiro) => (
+                    <option key={barbeiro.Id} value={barbeiro.Id}>
+                      {barbeiro.Nome}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -182,14 +204,12 @@ const Dashboard = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled>Selecione uma opção</option>
-                  <option>Corte</option>
-                  <option>Barba</option>
-                  <option>Sobrancelha</option>
-                  <option>Corte + Barba</option>
-                  <option>Corte + Barba + Sobrancelha</option>
-                  <option>Tintura</option>
-                  <option>Luzes</option>
+                  <option value="" disabled>Selecione um serviço</option>
+                  {servicos.map((servico) => (
+                    <option key={servico.Id} value={servico.Id}>
+                      {servico.Nome}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -223,12 +243,11 @@ const Dashboard = () => {
             </div>
 
             <button  type="submit" className="buttonFormHomePage">
-              {locationPath === "/homepage/edit" ? "Editar" : "Agendar"} 
+              Agendar 
             </button>
           </form>
         </div>
       </div>
-
 
       {/* Lista de Clientes Agendados */}
       <div className="formHomePage_2">
@@ -248,23 +267,17 @@ const Dashboard = () => {
               <tbody>
                 {agendamentos?.map((agendamento, index) => (
                   <tr key={index}>
-                    <td>{agendamento?.cliente}</td>
-                    <td>{agendamento?.barbeiro}</td>
-                    <td>{agendamento?.servico}</td>
-                    <td>{agendamento?.data}</td>
-                    <td>{agendamento?.hora}</td>
-                    <td>       
-                      
-                      <button className="buttonEditHomePage" onClick={() => {setPosition(index); navigate("/homepage/edit"); }}>
-                        Editar
-                      </button>
-
+                    <td>{agendamento?.ClienteNome}</td>  {/* Mostrar Nome do Cliente */}
+                    <td>{agendamento?.BarbeiroId}</td>
+                    <td>{agendamento?.ServicoId}</td>
+                    <td>{formatarData(agendamento.Data)}</td> {/* Formata a data corretamente */}
+                    <td>{formatarHora(agendamento.Hora)}</td> {/* Formata a hora corretamente */}
+                    <td>
                       <Trash2
                         className="iconDelete"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(agendamento.Id)}
                         style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
                       />
-                      
                     </td>
                   </tr>
                 ))}
