@@ -125,41 +125,57 @@ app.post('/agendamentos', async (req, res) => {
     console.log("Recebendo requisição de agendamento:", req.body); // Debug
     
     try {
-        // Verificar se todos os campos necessários estão presentes
         if (!clienteId || !barbeiroId || !servicoId || !data || !hora) {
             return res.status(400).json({ message: "Todos os campos são obrigatórios!" });
         }
 
-        // Formatar a data corretamente
         const formattedData = new Date(data).toISOString().split("T")[0]; // YYYY-MM-DD
+        const pool = await sql.connect(config);
 
-        // Buscar o nome do cliente com base no clienteId
-        const clienteResult = await sql.query`SELECT Nome FROM Usuarios WHERE Id = ${clienteId}`;
+        // 🔍 Verificar se já existe um agendamento no mesmo dia, horário e barbeiro
+        const checkAgendamento = await pool.request()
+            .input('barbeiroId', sql.Int, barbeiroId)
+            .input('data', sql.Date, formattedData)
+            .input('hora', sql.VarChar, hora)
+            .query(`
+                SELECT * FROM Agendamentos 
+                WHERE BarbeiroId = @barbeiroId 
+                AND Data = @data 
+                AND Hora = @hora
+            `);
+
+        if (checkAgendamento.recordset.length > 0) {
+            return res.status(400).json({ message: "Este horário já está ocupado para este barbeiro!" });
+        }
+
+        // Buscar nome do cliente
+        const clienteResult = await pool.request()
+            .input('clienteId', sql.Int, clienteId)
+            .query('SELECT Nome FROM Usuarios WHERE Id = @clienteId');
+
         if (clienteResult.recordset.length === 0) {
             return res.status(404).json({ message: "Cliente não encontrado!" });
         }
+
         const clienteNome = clienteResult.recordset[0].Nome;
 
-        // Criar conexão com o banco de dados
-        const pool = await sql.connect(config);
-        const request = await pool.request();
-        
-        // Inserir agendamento na tabela
-        await request.input('clienteId', sql.Int, clienteId);
-        await request.input('clienteNome', sql.VarChar, clienteNome);
-        await request.input('barbeiroId', sql.Int, barbeiroId);
-        await request.input('servicoId', sql.Int, servicoId);
-        await request.input('data', sql.DateTime, formattedData);
-        await request.input('hora', sql.VarChar, hora);
+        // Criar requisição no banco de dados
+        const request = pool.request();
+        request.input('clienteId', sql.Int, clienteId);
+        request.input('clienteNome', sql.VarChar, clienteNome);
+        request.input('barbeiroId', sql.Int, barbeiroId);
+        request.input('servicoId', sql.Int, servicoId);
+        request.input('data', sql.Date, formattedData);
+        request.input('hora', sql.VarChar, hora);
 
-        // Inserir o agendamento
+        // Inserir o novo agendamento
         await request.query(`
             INSERT INTO Agendamentos (ClienteId, ClienteNome, BarbeiroId, ServicoId, Data, Hora)
             VALUES (@clienteId, @clienteNome, @barbeiroId, @servicoId, @data, @hora)
         `);
 
-        // Agora, retornar todos os agendamentos para o frontend, incluindo o novo
-        const result = await sql.query(`
+        // Retornar a lista atualizada de agendamentos
+        const result = await pool.request().query(`
             SELECT ClienteId, ClienteNome, BarbeiroId, ServicoId, Data, Hora 
             FROM Agendamentos
         `);
@@ -169,7 +185,7 @@ app.post('/agendamentos', async (req, res) => {
         console.error("Erro ao criar agendamento:", err); // Log do erro
         res.status(500).json({ message: "Erro ao criar agendamento", error: err.message });
     }
-});  
+});
 
 // Rota para excluir agendamento
 app.delete('/agendamentos/:id', async (req, res) => {

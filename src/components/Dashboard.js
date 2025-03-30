@@ -26,7 +26,7 @@ const formatarHora = (horaISO) => {
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const dateCurrent = new Date().toISOString().split("T"[0]);
+  const dateCurrent = new Date().toISOString().split("T")[0];
   const [barbeiros, setBarbeiros] = useState([]);
   const [servicos, setServicos] = useState([]);
   const [agendamentos, setAgendamentos] = useState([]); // Estado para armazenar os agendamentos
@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   // Função para enviar o formulário
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
 
     // Criar um novo agendamento com os dados do formulário + clienteId (do usuário logado)
     const novoAgendamento = {
@@ -268,22 +268,23 @@ const Dashboard = () => {
                 {agendamentos?.map((agendamento, index) => (
                   <tr key={index}>
                     <td>{agendamento?.ClienteNome}</td>  {/* Mostrar Nome do Cliente */}
-                    <td>{agendamento?.BarbeiroId}</td>
-                    <td>{agendamento?.ServicoId}</td>
+                    <td>{barbeiros.find(b => b.Id === agendamento.BarbeiroId)?.Nome || "Desconhecido"}</td>
+                    <td>{servicos.find(s => s.Id === agendamento.ServicoId)?.Nome || "Desconhecido"}</td>
                     <td>{formatarData(agendamento.Data)}</td> {/* Formata a data corretamente */}
                     <td>{formatarHora(agendamento.Hora)}</td> {/* Formata a hora corretamente */}
-                    <td>
-                      <Trash2
-                        className="iconDelete"
-                        onClick={() => handleDelete(agendamento.Id)}
-                        style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
-                      />
-                    </td>
+                    {agendamento.ClienteId === user.id && (
+                      <td>
+                        <Trash2
+                          className="iconDelete"
+                          onClick={() => handleDelete(agendamento.Id)}
+                          style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="linhaTable"></div>
           </div>
         </div>
       </div>

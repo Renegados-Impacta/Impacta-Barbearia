@@ -155,13 +155,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-
-            .linhaTable {
-                width: 100%;
-                margin: 10px 0;
-                border: 1px solid black;
-            }
-            
+                       
             .table {
                 color: #F5F5F5;
                 text-shadow: 2px 2px 1px black;
