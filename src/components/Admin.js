@@ -63,6 +63,11 @@ const Admin = () => {
     fetchAgendamentos();
     }, []);
     
+    if (!user) {
+        navigate("/"); // Se o usuário não estiver logado, redireciona para a página de login
+        return null;
+    }
+    
     // Função para excluir um agendamento
     const handleDelete = async (id) => {
     try {
