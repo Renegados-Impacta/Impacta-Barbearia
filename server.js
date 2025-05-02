@@ -57,6 +57,7 @@ app.post('/login', async (req, res) => {
                 id: result.recordset[0].Id,
                 name: result.recordset[0].Nome,
                 email: result.recordset[0].Email,
+                isAdmin: result.recordset[0].IsAdmin,
             },
         });
     } catch (err) {
@@ -215,5 +216,5 @@ app.delete('/agendamentos/:id', async (req, res) => {
 
 const PORT = 5000;
 app.listen(PORT, () => {
-});
     console.log(`Servidor rodando na porta ${PORT}`);
+});

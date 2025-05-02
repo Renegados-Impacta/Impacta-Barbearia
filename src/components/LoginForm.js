@@ -13,7 +13,11 @@ const LoginForm = () => {
     const successLogin = await login(email, password);
   
     if (successLogin) {
-      navigate("/homepage");
+      if (successLogin.isAdmin) {
+        navigate("/pageadmin");
+      } else {
+        navigate("/homepage")
+      }
     }
   };
 

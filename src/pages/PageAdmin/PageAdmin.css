@@ -1,0 +1,87 @@
+.mainAdmin {
+    height: 100vh;
+}
+
+.headerAdmin {
+    background-color: black;
+    height: 80px;
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20px;
+  
+    position: absolute;
+    top: 0;  
+}
+
+.formAdmin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .ContainerAdmin {
+        background-color: #667F85;
+        width: 850px;
+        margin: 250px auto -20px;
+        padding: 50px;
+        border: 2px solid black;
+        border-radius: 15px;
+
+        h1 {
+            font-size: 35px;
+            text-align: center;
+        }
+
+        .ContentTableAdmin {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+                       
+            .tableAdmin {
+                color: #F5F5F5;
+                text-shadow: 2px 2px 1px black;
+                font-size: 18px;
+
+                tr {
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+
+                    th::after {
+                        content: "|";
+                        padding-left: 10px;
+                    }
+                    
+                }
+
+                tbody {
+
+                    tr {
+                        margin-top: 20px;                        
+
+                        td::after {
+                            content: "|";
+                            padding-left: 10px;
+                        }
+
+                        td:last-child::after {
+                            content: ""; /* Remove o | da última célula */
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}

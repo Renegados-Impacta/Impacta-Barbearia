@@ -5,10 +5,15 @@ import { useContext } from "react";
 import "./produtos.css";
 
 const Produtos = () => {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const { products } = useFetchProducts();
 
+  if (!user) {
+    navigate("/"); // Se o usuário não estiver logado, redireciona para a página de login
+    return null;
+  }
+  
   return (
     <main>
       

@@ -160,18 +160,6 @@
                 color: #F5F5F5;
                 text-shadow: 2px 2px 1px black;
                 font-size: 18px;
-                
-                .buttonEditHomePage {
-                    background: transparent;
-                    border: none;
-                }
-                
-                .buttonEditHomePage:hover {
-                    color:rgb(0, 98, 245);
-                    text-decoration: underline;
-                    text-underline-offset: 2px;
-                    text-shadow: 0.5px 0.5px 0.5px black;
-                }
 
                 tr {
                     display: flex;

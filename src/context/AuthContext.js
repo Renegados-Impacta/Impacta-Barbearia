@@ -23,12 +23,13 @@ export const AuthProvider = ({ children }) => {
       });
       
       const data = await response.json();
+      console.log(data)
 
       if (response.ok) {
         setUser(data.user);
         localStorage.setItem("loggedUser", JSON.stringify(data.user)); // Armazena temporariamente a sessão
         toast.success("Login efetuado com sucesso!");
-        return true;
+        return data.user;
       } else {
         toast.error(data.message);
         return false;
