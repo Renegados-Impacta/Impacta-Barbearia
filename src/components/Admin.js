@@ -94,12 +94,15 @@ const Admin = () => {
         <main className="mainAdmin">
 
             <header className="headerAdmin">
+
                 <img src="/BarbeariaLogo2.png" alt="Logo" width={100} />
-                <h2 className="conteudoHomePage">
+                
+                <h2 className="conteudoAdmin">
                   {user ? `Seja bem-vindo, ${user.name}` : ""}
                 </h2>
 
-                <button className="buttonHomePage" onClick={() => { logout(); navigate("/"); }} > Sair </button>
+                <button className="buttonAdmin" onClick={() => { logout(); navigate("/"); }} > Sair </button>
+                
             </header>
 
             {/* Lista de Clientes Agendados */}
@@ -107,38 +110,48 @@ const Admin = () => {
 
                 <div className="ContainerAdmin">
 
-                    <h1>Lista de clientes agendados</h1>
+                    <h1> Clientes Agendados </h1>
                     
                     <div className="ContentTableAdmin">
 
                         <table className="tableAdmin">
                             <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Barbeiro</th>
-                                <th>Serviço</th>
-                                <th>Data do Corte</th>
-                                <th>Hora do Corte</th>
-                            </tr>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Barbeiro</th>
+                                    <th>Serviço</th>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {agendamentos?.map((agendamento, index) => (
-                                <tr key={index}>
-                                <td>{agendamento?.ClienteNome}</td>  {/* Mostrar Nome do Cliente */}
-                                <td>{barbeiros.find(b => b.Id === agendamento.BarbeiroId)?.Nome || "Desconhecido"}</td>
-                                <td>{servicos.find(s => s.Id === agendamento.ServicoId)?.Nome || "Desconhecido"}</td>
-                                <td>{formatarData(agendamento.Data)}</td> {/* Formata a data corretamente */}
-                                <td>{formatarHora(agendamento.Hora)}</td> {/* Formata a hora corretamente */}
-                                <td>
-                                    <Trash2
-                                    className="iconDelete"
-                                    onClick={() => handleDelete(agendamento.Id)}
-                                    style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
-                                    />
-                                </td>
-                                </tr>
-                            ))}
+
+                                {agendamentos?.map((agendamento, index) => (
+                                    <tr key={index}>
+                                        
+                                        <td>{agendamento?.ClienteNome}</td>  {/* Mostrar Nome do Cliente */}
+                                        
+                                        <td>{barbeiros.find(b => b.Id === agendamento.BarbeiroId)?.Nome || "Desconhecido"}</td>
+                                        
+                                        <td>{servicos.find(s => s.Id === agendamento.ServicoId)?.Nome || "Desconhecido"}</td>
+
+                                        <td>{formatarData(agendamento.Data)}</td> {/* Formata a data corretamente */}
+                                        
+                                        <td>{formatarHora(agendamento.Hora)}</td> {/* Formata a hora corretamente */}
+                                        
+                                        <td>
+                                            <Trash2
+                                            className="iconDelete"
+                                            onClick={() => handleDelete(agendamento.Id)}
+                                            style={{ cursor: "pointer", color: "red", marginLeft: "10px" }}
+                                            />
+                                        </td>
+                                        
+                                    </tr>
+                                ))}
+                                
                             </tbody>
+                            
                         </table>
                         
                     </div>

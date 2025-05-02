@@ -162,7 +162,7 @@ const Dashboard = () => {
     <main className="mainHomePage">
       <header className="headerHomePage">
         <img src="/BarbeariaLogo2.png" alt="Logo" width={100} />
-        <h2 className="conteudoHomePage">Seja bem-vindo, {user.name}</h2>
+        <h1 className="conteudoHomePage">Seja bem-vindo, {user.name}</h1>
         <button className="productsHomePage" onClick={() => navigate("/produtos")}>
           Produtos
         </button>
@@ -260,8 +260,8 @@ const Dashboard = () => {
                   <th>Cliente</th>
                   <th>Barbeiro</th>
                   <th>Serviço</th>
-                  <th>Data do Corte</th>
-                  <th>Hora do Corte</th>
+                  <th>Data</th>
+                  <th>Hora</th>
                 </tr>
               </thead>
               <tbody>

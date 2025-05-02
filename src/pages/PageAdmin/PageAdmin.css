@@ -13,7 +13,11 @@
     padding-right: 20px;
   
     position: absolute;
-    top: 0;  
+    top: 0;
+
+    .conteudoAdmin {
+        color: #F5F5F5;
+    }
 }
 
 .formAdmin {
@@ -83,5 +87,306 @@
         }
         
     }
+    
+}
+
+@media(max-width: 880px) {
+
+    .formAdmin {
+        
+        .ContainerAdmin {
+            
+            width: 730px;
+
+            h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    }
+
+}
+
+@media (max-width: 768px) {
+    .headerAdmin {
+        
+        h2 {
+            font-size: 20px;
+        }
+
+        .buttonAdmin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+    }
+
+    .formAdmin {
+
+        .ContainerAdmin {
+            
+            width: 620px;
+            
+            h1 {
+                font-size: 30px;
+            }
+
+            .ContentTableAdmin {
+
+                .tableAdmin {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 15px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                
+                                font-size: 14px;
+
+                                .iconDelete {
+                                    width: 16px;
+                                }
+                                
+                            }
+                            
+                        }
+
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+    }
+}
+
+@media (max-width: 650px) {
+
+    .contentHomePage {
+        width: 550px;
+    }
+    
+    .formAdmin {
+        
+        .ContainerAdmin {
+            
+            width: 550px;
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .ContentTableAdmin {
+
+                .tableAdmin {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 13px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+                        
+                        tr {
+                            
+                            td {
+                                font-size: 12px;
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media (max-width: 590px) {
+
+    .headerHomePage{
+        
+        h1 {
+            font-size: 16px;
+        }
+
+    }
+    
+    .contentHomePage {
+        width: 450px;
+        
+        h1 {
+            font-size: 25px;
+        }
+
+    }
+    
+    .formAdmin {
+        
+        .ContainerAdmin {
+            
+            width: 450px;
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .ContentTableAdmin {
+
+                .tableAdmin {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 15px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: enter;
+                        margin: 0 auto;
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                font-size: 13px;
+
+                                .iconDelete {
+                                    width: 14px;
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media (max-width: 500px) {
+    
+    .headerHomePage{
+
+        width: 100%;
+        
+        .conteudoHomePage {
+            font-size: 9px;
+        }
+
+        .buttonHomePage {
+            width: 50px;
+            margin-left: 15px;
+        }
+
+    }
+    
+    .contentHomePage {
+        width: 300px;
+        
+        h1 {
+            font-size: 20px;
+        }
+
+    }
+    
+    .formAdmin {
+        
+        .ContainerAdmin {
+            
+            width: 300px;
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .ContentTableAdmin {
+
+                .tableAdmin {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 10px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: enter;
+                        margin: 0 auto;
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                font-size: 9px;                                
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+
     
 }

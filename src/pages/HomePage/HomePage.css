@@ -14,6 +14,11 @@
 
   position: absolute;
   top: 0;  
+
+  h1 {
+    font-size: 25px;
+  }
+  
 }
 
 .productsHomePage {
@@ -200,11 +205,29 @@
     
 }
 
+@media(max-width: 880px) {
+
+    .formHomePage_2 {
+        
+        .ContainerHomePage {
+            
+            width: 730px;
+
+            h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    }
+
+}
+
 @media (max-width: 768px) {
     .headerHomePage {
         
-        h2 {
-            font-size: 15px;
+        h1 {
+            font-size: 20px;
         }
 
         .productsHomePage {
@@ -224,8 +247,7 @@
 
     .contentHomePage {
 
-        /* margin-top: 150px; */
-        width: 400px;
+        width: 620px;
 
         .cadastrarHomePage {
             
@@ -248,7 +270,7 @@
             width: 620px;
             
             h1 {
-                font-size: 28px;
+                font-size: 30px;
             }
 
             .ContentTable {
@@ -273,10 +295,17 @@
                             margin-top: 20px;
                             
                             td {
-                                font-size: 10px;
+                                
+                                font-size: 14px;
+
+                                .iconDelete {
+                                    width: 16px;
+                                }
+                                
                             }
                             
                         }
+
                         
                     } 
                     
@@ -288,28 +317,23 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 650px) {
 
     .contentHomePage {
-        width: 320px;
-        padding: 30px;
+        width: 550px;
     }
     
     .formHomePage_2 {
         
         .ContainerHomePage {
             
-            width: 320px;
+            width: 550px;
 
             h1 {
-                font-size: 18px;
+                font-size: 25px;
             }
 
             .ContentTable {
-
-                .linhaTable {
-                    display: none;
-                }
 
                 .table {
 
@@ -318,7 +342,74 @@
                         tr {
 
                             th {
+                                font-size: 13px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+                        
+                        tr {
+                            
+                            td {
                                 font-size: 12px;
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media (max-width: 590px) {
+
+    .headerHomePage{
+        
+        h1 {
+            font-size: 16px;
+        }
+
+    }
+    
+    .contentHomePage {
+        width: 450px;
+        
+        h1 {
+            font-size: 25px;
+        }
+
+    }
+    
+    .formHomePage_2 {
+        
+        .ContainerHomePage {
+            
+            width: 450px;
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .ContentTable {
+
+                .table {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 9px;
                             }
                             
                         }
@@ -332,17 +423,16 @@
                         align-items: enter;
                         margin: 0 auto;
                         
-                        .buttonEditHomePage {
-                            width: 10px;
-                            margin-right: 10px;
-                            font-size: 8px;
-                        }
-                        
                         tr {
                             margin-top: 20px;
                             
                             td {
-                                font-size: 7px;
+                                font-size: 9px;
+
+                                .iconDelete {
+                                    width: 12px;
+                                }
+                                
                             }
                             
                         }
@@ -356,5 +446,90 @@
         }
         
     }
+    
+}
+
+@media (max-width: 500px) {
+    
+    .headerHomePage{
+
+        width: 100%;
+        
+        .conteudoHomePage {
+            font-size: 9px;
+        }
+        
+        .productsHomePage {
+            font-size: 12px;
+        }
+
+        .buttonHomePage {
+            width: 50px;
+            margin-left: 15px;
+        }
+
+    }
+    
+    .contentHomePage {
+        width: 300px;
+        
+        h1 {
+            font-size: 20px;
+        }
+
+    }
+    
+    .formHomePage_2 {
+        
+        .ContainerHomePage {
+            
+            width: 300px;
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .ContentTable {
+
+                .table {
+
+                    thead {
+
+                        tr {
+
+                            th {
+                                font-size: 10px;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    tbody {
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: enter;
+                        margin: 0 auto;
+                        
+                        tr {
+                            margin-top: 20px;
+                            
+                            td {
+                                font-size: 9px;                                
+                            }
+                            
+                        }
+                        
+                    } 
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+
     
 }
